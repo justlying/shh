@@ -22,6 +22,102 @@ body {
     pointer-events: none;
 }
 
+.password-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 10, 10, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.password-overlay.hidden {
+    display: none;
+}
+
+.password-container {
+    background-color: #1a1a1a;
+    border: 2px solid rgba(100, 200, 255, 0.4);
+    border-radius: 10px;
+    padding: 40px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(100, 200, 255, 0.3);
+}
+
+.password-container h2 {
+    color: #64c8ff;
+    margin-bottom: 25px;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.password-container input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    border-radius: 5px;
+    color: #e0e0e0;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.password-container input:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(100, 200, 255, 0.6);
+    box-shadow: 0 0 15px rgba(100, 200, 255, 0.3);
+}
+
+.password-container input::placeholder {
+    color: #666;
+}
+
+.password-container button {
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(255, 100, 200, 0.2));
+    border: 2px solid rgba(100, 200, 255, 0.4);
+    color: #64c8ff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.password-container button:hover {
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.4), rgba(255, 100, 200, 0.4));
+    border-color: rgba(100, 200, 255, 0.8);
+    box-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+}
+
+.error-message {
+    color: #ff6464;
+    font-size: 14px;
+    margin-top: 15px;
+    min-height: 20px;
+}
+
+.hidden-content {
+    position: relative;
+    z-index: 10;
+}
+
+.hidden-content.hidden {
+    display: none;
+}
+
 .sidebar {
     position: fixed;
     left: 20px;
