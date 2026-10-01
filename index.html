@@ -9,31 +9,43 @@
 </head>
 <body>
     <div id="particles-container"></div>
-    
-    <nav class="sidebar">
-        <div class="nav-items">
-            <a href="index.html" class="nav-item active" title="homepage">
-                <i class="fas fa-circle"></i>
-            </a>
-            <a href="r0x.html" class="nav-item" title="r0x">
-                <i class="fas fa-key"></i>
-            </a>
-            <a href="s3hhh.html" class="nav-item" title="S3hhh">
-                <i class="fas fa-lock"></i>
-            </a>
+
+    <div id="passwordScreen" class="password-overlay">
+        <div class="password-container">
+            <h2>Access Required</h2>
+            <input type="password" id="passwordInput" placeholder="Enter password" />
+            <button id="submitPassword">Unlock</button>
+            <p id="passwordError" class="error-message"></p>
         </div>
-    </nav>
+    </div>
 
-    <button class="follow-btn" id="followBtn">site</button>
+    <div id="mainContent" class="hidden-content hidden">
+        <nav class="sidebar">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item active" title="homepage">
+                    <i class="fas fa-circle"></i>
+                </a>
+                <a href="r0x.html" class="nav-item" title="r0x">
+                    <i class="fas fa-key"></i>
+                </a>
+                <a href="s3hhh.html" class="nav-item" title="S3hhh">
+                    <i class="fas fa-lock"></i>
+                </a>
+            </div>
+        </nav>
 
-    <div id="popup" class="popup hidden">
-        <div class="popup-content">
-            <span class="popup-close">&times;</span>
-            <iframe src="https://manmansecuredgamesgithubio.vercel.app" frameborder="0" allowfullscreen></iframe>
+        <button class="follow-btn" id="followBtn">site</button>
+
+        <div id="popup" class="popup hidden">
+            <div class="popup-content">
+                <span class="popup-close">&times;</span>
+                <iframe src="https://manmansecuredgamesgithubio.vercel.app" frameborder="0" allowfullscreen></iframe>
+            </div>
         </div>
     </div>
 
     <script src="particles.js"></script>
     <script src="script.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html>
