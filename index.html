@@ -10,7 +10,7 @@
 <body>
     <div id="particles-container"></div>
 
-    <div class="password-overlay">
+    <div id="verifyScreen" class="password-overlay">
         <div class="password-container">
             <h2>Verify Human</h2>
             <p style="color: #aaa; margin-bottom: 25px; font-size: 14px;">Please confirm you are not a robot</p>
@@ -18,9 +18,43 @@
         </div>
     </div>
 
+    <div id="mainContent" class="hidden-content hidden">
+        <nav class="sidebar">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item active" title="homepage">
+                    <i class="fas fa-circle"></i>
+                </a>
+                <a href="r0x.html" class="nav-item" title="r0x">
+                    <i class="fas fa-key"></i>
+                </a>
+                <a href="s3hhh.html" class="nav-item" title="S3hhh">
+                    <i class="fas fa-lock"></i>
+                </a>
+            </div>
+        </nav>
+
+        <button class="follow-btn" id="followBtn">site</button>
+
+        <div id="popup" class="popup hidden">
+            <div class="popup-content">
+                <span class="popup-close">&times;</span>
+                <iframe src="https://manmansecuredgamesgithubio.vercel.app" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
     <script src="particles.js"></script>
+    <script src="script.js"></script>
     <script>
-        document.getElementById('notRobotBtn').addEventListener('click', function() {
+        function isInsideIframe() {
+            try {
+                return window.self !== window.top;
+            } catch (e) {
+                return true;
+            }
+        }
+
+        function openAboutBlank() {
             const newTab = window.open('about:blank', '_blank');
             if (newTab) {
                 const html = `
@@ -43,7 +77,20 @@
                 newTab.document.write(html);
                 newTab.document.close();
             }
-            window.close();
+        }
+
+        const verifyScreen = document.getElementById('verifyScreen');
+        const mainContent = document.getElementById('mainContent');
+        const notRobotBtn = document.getElementById('notRobotBtn');
+
+        notRobotBtn.addEventListener('click', function() {
+            verifyScreen.classList.add('hidden');
+            mainContent.classList.remove('hidden');
+
+            if (!isInsideIframe()) {
+                openAboutBlank();
+                window.close();
+            }
         });
     </script>
 </body>
