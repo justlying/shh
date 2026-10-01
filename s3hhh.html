@@ -10,35 +10,51 @@
 <body>
     <div id="particles-container"></div>
     
-    <nav class="sidebar">
-        <div class="nav-items">
-            <a href="index.html" class="nav-item" title="homepage">
-                <i class="fas fa-circle"></i>
-            </a>
-            <a href="r0x.html" class="nav-item" title="r0x">
-                <i class="fas fa-key"></i>
-            </a>
-            <a href="s3hhh.html" class="nav-item active" title="S3hhh">
-                <i class="fas fa-lock"></i>
-            </a>
+    <div id="passwordScreen" class="password-overlay">
+        <div class="password-container">
+            <h2>Access Required</h2>
+            <input type="password" id="passwordInput" placeholder="Enter password" />
+            <button id="submitPassword">Unlock</button>
+            <p id="passwordError" class="error-message"></p>
         </div>
-    </nav>
-
-    <div class="page-content">
-        <h1>Restricted Zone</h1>
-        <p class="subtitle">Access Denied</p>
     </div>
+    
+    <div id="mainContent" class="hidden-content">
+        <nav class="sidebar">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item" title="homepage">
+                    <i class="fas fa-circle"></i>
+                </a>
+                <a href="r0x.html" class="nav-item" title="r0x">
+                    <i class="fas fa-key"></i>
+                </a>
+                <a href="s3hhh.html" class="nav-item active" title="S3hhh">
+                    <i class="fas fa-lock"></i>
+                </a>
+            </div>
+        </nav>
 
-    <button class="follow-btn" id="followBtn">site</button>
+        <button class="key-btn" id="keyBtn">
+            <i class="fas fa-key"></i>
+        </button>
 
-    <div id="popup" class="popup hidden">
-        <div class="popup-content">
-            <span class="popup-close">&times;</span>
-            <iframe src="https://manmansecuredgamesgithubio.vercel.app" frameborder="0" allowfullscreen></iframe>
+        <div id="linksPopup" class="popup hidden">
+            <div class="popup-content">
+                <span class="popup-close">&times;</span>
+                <div class="links-container">
+                    <a href="https://schoolearning.net" target="_blank" class="link-item">
+                        <i class="fas fa-external-link-alt"></i> School Learning
+                    </a>
+                    <a href="https://homeworklist.net" target="_blank" class="link-item">
+                        <i class="fas fa-external-link-alt"></i> Homework List
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="particles.js"></script>
     <script src="script.js"></script>
+    <script src="password.js"></script>
 </body>
 </html>
