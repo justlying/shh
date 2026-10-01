@@ -1,75 +1,51 @@
-// Follow button functionality
 const followBtn = document.getElementById('followBtn');
 const popup = document.getElementById('popup');
 const popupClose = document.querySelector('.popup-close');
 
+// The homepage button opens the popup but stays in a fixed position.
 if (followBtn) {
-    followBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        popup.classList.remove('hidden');
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        const x = e.clientX;
-        const y = e.clientY;
-        const width = followBtn.offsetWidth;
-        const height = followBtn.offsetHeight;
-        
-        followBtn.style.position = 'fixed';
-        followBtn.style.left = (x + 15) + 'px';
-        followBtn.style.top = (y + 15) + 'px';
+    followBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (popup) popup.classList.remove('hidden');
     });
 }
 
-// Close popup when clicking X
 if (popupClose) {
-    popupClose.addEventListener('click', (e) => {
-        e.stopPropagation();
-        popup.classList.add('hidden');
+    popupClose.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (popup) popup.classList.add('hidden');
     });
 }
 
-// Close popup when clicking outside content
 if (popup) {
-    popup.addEventListener('click', (e) => {
-        if (e.target === popup) {
-            popup.classList.add('hidden');
-        }
+    popup.addEventListener('click', (event) => {
+        if (event.target === popup) popup.classList.add('hidden');
     });
 }
 
-// Key button functionality (only on r0x page)
 const keyBtn = document.getElementById('keyBtn');
 const linksPopup = document.getElementById('linksPopup');
 
-if (keyBtn) {
-    keyBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
+if (keyBtn && linksPopup) {
+    keyBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
         linksPopup.classList.remove('hidden');
     });
-}
 
-// Close links popup when clicking X
-if (linksPopup) {
     const closeBtn = linksPopup.querySelector('.popup-close');
     if (closeBtn) {
-        closeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
+        closeBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
             linksPopup.classList.add('hidden');
         });
     }
 
-    linksPopup.addEventListener('click', (e) => {
-        if (e.target === linksPopup) {
-            linksPopup.classList.add('hidden');
-        }
+    linksPopup.addEventListener('click', (event) => {
+        if (event.target === linksPopup) linksPopup.classList.add('hidden');
     });
 }
 
-// Prevent popup from closing when clicking inside
-const popupContent = document.querySelector('.popup-content');
-if (popupContent) {
-    popupContent.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-}
+// Keep popup contents from triggering the overlay click handler.
+document.querySelectorAll('.popup-content').forEach((content) => {
+    content.addEventListener('click', (event) => event.stopPropagation());
+});
