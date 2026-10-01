@@ -24,7 +24,23 @@ function handleSearch() {
         return;
     }
 
-    newTab.location.href = target;
+    // Write HTML with iframe to keep address bar as about:blank
+    newTab.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                * { margin: 0; padding: 0; }
+                body { width: 100%; height: 100vh; }
+                iframe { width: 100%; height: 100%; border: none; }
+            </style>
+        </head>
+        <body>
+            <iframe src="${target}" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"></iframe>
+        </body>
+        </html>
+    `);
+    newTab.document.close();
 }
 
 if (searchBtn) {
