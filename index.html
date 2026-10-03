@@ -14,7 +14,9 @@
         <div class="password-container">
             <h2>Verify Human</h2>
             <p style="color: #aaa; margin-bottom: 25px; font-size: 14px;">Please confirm you are not a robot</p>
-            <button id="notRobotBtn" style="width: 100%; padding: 12px 20px; background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(255, 100, 200, 0.2)); border: 2px solid rgba(100, 200, 255, 0.4); color: #64c8ff; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">I'm Not a Robot</button>
+            <button id="notRobotBtn" style="width: 100%; padding: 12px 20px; background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(255, 100, 200, 0.2)); border: 2px solid rgba(100, 200, 255, 0.5); color: #fff; border-radius: 4px; cursor: pointer; font-size: 16px;">
+                I'm Human
+            </button>
         </div>
     </div>
 
@@ -54,6 +56,14 @@
             }
         }
 
+        function isAboutBlank() {
+            try {
+                return window.location.href === 'about:blank';
+            } catch (e) {
+                return false;
+            }
+        }
+
         function openAboutBlank() {
             const newTab = window.open('about:blank', '_blank');
             if (newTab) {
@@ -83,15 +93,22 @@
         const mainContent = document.getElementById('mainContent');
         const notRobotBtn = document.getElementById('notRobotBtn');
 
-        notRobotBtn.addEventListener('click', function() {
+        // Auto-detect about:blank and skip verification
+        if (isAboutBlank()) {
             verifyScreen.classList.add('hidden');
             mainContent.classList.remove('hidden');
+        } else {
+            // Only show verification screen on the actual site
+            notRobotBtn.addEventListener('click', function() {
+                verifyScreen.classList.add('hidden');
+                mainContent.classList.remove('hidden');
 
-            if (!isInsideIframe()) {
-                openAboutBlank();
-                window.close();
-            }
-        });
+                if (!isInsideIframe()) {
+                    openAboutBlank();
+                    window.close();
+                }
+            });
+        }
     </script>
 </body>
 </html>
