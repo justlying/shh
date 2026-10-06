@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .games-container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .games-header { text-align: center; margin-bottom: 40px; }
+        .games-header h1 { font-size: 32px; color: #fff; margin: 0; }
+        .games-header p { color: #999; margin-top: 5px; }
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .game-card { background: rgba(20,20,20,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .game-card:hover { background: rgba(30,30,30,0.9); border-color: rgba(100,200,255,0.6); transform: translateY(-5px); }
+        .game-card i { font-size: 40px; color: rgba(100,200,255,0.6); margin-bottom: 10px; }
+        .game-card h3 { color: #fff; margin: 10px 0; font-size: 18px; }
+        .game-card p { color: #999; font-size: 12px; margin: 0; }
+        .game-card .players { color: #aaa; font-size: 11px; margin-top: 8px; }
+        .add-game-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 2px solid rgba(100,200,255,0.5); color: #ccc; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.3s; margin-top: 20px; }
+        .add-game-btn:hover { background: linear-gradient(135deg, rgba(100,200,255,0.4), rgba(255,100,200,0.4)); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: rgba(20,20,20,0.95); border: 1px solid rgba(100,200,255,0.3); border-radius: 8px; padding: 30px; max-width: 500px; width: 90%; }
+        .modal-content h2 { color: #fff; margin-top: 0; }
+        .modal-content label { display: block; color: #ccc; margin-top: 15px; font-size: 14px; }
+        .modal-content input, .modal-content textarea { width: 100%; padding: 10px; margin-top: 5px; background: rgba(10,10,10,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 5px; color: #ccc; font-family: inherit; box-sizing: border-box; }
+        .modal-content textarea { resize: vertical; min-height: 80px; }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-buttons button { flex: 1; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: 0.3s; }
+        .btn-save { background: rgba(100,200,255,0.3); color: #ccc; border: 1px solid rgba(100,200,255,0.5); }
+        .btn-save:hover { background: rgba(100,200,255,0.5); }
+        .btn-cancel { background: rgba(100,100,100,0.3); color: #ccc; border: 1px solid rgba(100,100,100,0.5); }
+        .btn-cancel:hover { background: rgba(100,100,100,0.5); }
+    </style>
+</head>
+<body>
+    <div id="particles-container"></div>
+
+    <div id="mainContent">
+        <nav class="sidebar">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item" title="homepage"><i class="fas fa-circle"></i></a>
+                <a href="ai.html" class="nav-item" title="AI"><i class="fas fa-brain"></i></a>
+                <a href="chatroom.html" class="nav-item" title="Chatroom"><i class="fas fa-comments"></i></a>
+                <a href="games.html" class="nav-item active" title="Games"><i class="fas fa-gamepad"></i></a>
+                <a href="template.html" class="nav-item" title="Template"><i class="fas fa-code"></i></a>
+            </div>
+        </nav>
+
+        <div class="games-container">
+            <div class="games-header">
+                <h1>Games</h1>
+                <p>Play and have fun</p>
+            </div>
+
+            <div class="games-grid" id="gamesGrid">
+                <div class="game-card"><i class="fas fa-dice"></i><h3>GAME_NAME_1</h3><p>GAME_DESCRIPTION_1</p><div class="players">👥 PLAYERS_1</div></div>
+                <div class="game-card"><i class="fas fa-chess"></i><h3>GAME_NAME_2</h3><p>GAME_DESCRIPTION_2</p><div class="players">👥 PLAYERS_2</div></div>
+                <div class="game-card"><i class="fas fa-cards"></i><h3>GAME_NAME_3</h3><p>GAME_DESCRIPTION_3</p><div class="players">👥 PLAYERS_3</div></div>
+            </div>
+
+            <button class="add-game-btn" id="addGameBtn">+ Add Game</button>
+        </div>
+    </div>
+
+    <div class="modal" id="gameModal">
+        <div class="modal-content">
+            <h2>Add a New Game</h2>
+            <label>Game Name:</label>
+            <input type="text" id="gameName" placeholder="e.g. Chess">
+            <label>Description:</label>
+            <textarea id="gameDesc" placeholder="e.g. A strategic board game"></textarea>
+            <label>Players:</label>
+            <input type="text" id="gamePlayers" placeholder="e.g. 2-4 players">
+            <label>Icon (Font Awesome Class):</label>
+            <input type="text" id="gameIcon" placeholder="e.g. fa-chess" value="fa-dice">
+            <div class="modal-buttons">
+                <button class="btn-save" id="saveGameBtn">Add Game</button>
+                <button class="btn-cancel" id="closeModalBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="particles.js"></script>
+    <script>
+        const gamesGrid = document.getElementById('gamesGrid');
+        const addGameBtn = document.getElementById('addGameBtn');
+        const gameModal = document.getElementById('gameModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const saveGameBtn = document.getElementById('saveGameBtn');
+        const gameName = document.getElementById('gameName');
+        const gameDesc = document.getElementById('gameDesc');
+        const gamePlayers = document.getElementById('gamePlayers');
+        const gameIcon = document.getElementById('gameIcon');
+
+        let games = JSON.parse(localStorage.getItem('games')) || [];
+        games.forEach((game, index) => addGameToDOM(game, index));
+
+        addGameBtn.addEventListener('click', () => gameModal.classList.add('active'));
+        closeModalBtn.addEventListener('click', () => { gameModal.classList.remove('active'); resetForm(); });
+
+        saveGameBtn.addEventListener('click', function() {
+            if (!gameName.value.trim()) {
+                alert('Please enter a game name');
+                return;
+            }
+
+            const newGame = {
+                name: gameName.value,
+                description: gameDesc.value || 'Fun game',
+                players: gamePlayers.value || 'Multiplayer',
+                icon: gameIcon.value || 'fa-dice'
+            };
+
+            games.push(newGame);
+            localStorage.setItem('games', JSON.stringify(games));
+            addGameToDOM(newGame, games.length - 1);
+            gameModal.classList.remove('active');
+            resetForm();
+        });
+
+        function addGameToDOM(game, index) {
+            const gameCard = document.createElement('div');
+            gameCard.className = 'game-card';
+            gameCard.innerHTML = `
+                <i class="fas ${game.icon}"></i>
+                <h3>${game.name}</h3>
+                <p>${game.description}</p>
+                <div class="players">👥 ${game.players}</div>
+                <button style="margin-top: 10px; padding: 5px 10px; background: rgba(255,100,100,0.3); border:1px solid rgba(255,100,100,0.5); color:#ccc; border-radius:3px; cursor:pointer; font-size:11px;" onclick="deleteGame(${index})">Delete</button>
+            `;
+            gamesGrid.appendChild(gameCard);
+        }
+
+        function deleteGame(index) {
+            if (confirm('Delete this game?')) {
+                games.splice(index, 1);
+                localStorage.setItem('games', JSON.stringify(games));
+                location.reload();
+            }
+        }
+
+        function resetForm() {
+            gameName.value = '';
+            gameDesc.value = '';
+            gamePlayers.value = '';
+            gameIcon.value = 'fa-dice';
+        }
+
+        gameModal.addEventListener('click', function(e) {
+            if (e.target === gameModal) {
+                gameModal.classList.remove('active');
+                resetForm();
+            }
+        });
+    </script>
+</body>
+</html>
