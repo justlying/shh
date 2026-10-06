@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .template-container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; color: #ddd; }
+        .template-header { text-align: center; margin-bottom: 25px; }
+        .template-header h1 { font-size: 32px; margin: 0; color: #fff; }
+        .template-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; }
+        .panel { background: rgba(20,20,20,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 10px; padding: 20px; }
+        .code-box { min-height: 500px; resize: vertical; width: 100%; background: rgba(10,10,10,0.9); border: 1px solid rgba(100,200,255,0.25); border-radius: 6px; color: #d9f3ff; padding: 16px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5; box-sizing: border-box; }
+        .placeholder-list { display: flex; flex-direction: column; gap: 12px; }
+        .placeholder-field { display: flex; flex-direction: column; gap: 6px; }
+        .placeholder-field label { color: #ccc; font-size: 12px; }
+        .placeholder-field input { width: 100%; padding: 10px; background: rgba(10,10,10,0.9); border: 1px solid rgba(100,200,255,0.3); border-radius: 6px; color: #fff; box-sizing: border-box; }
+        .template-actions { margin-top: 20px; display: flex; gap: 10px; }
+        .template-actions button { flex: 1; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 1px solid rgba(100,200,255,0.5); color: #ddd; border-radius: 6px; padding: 10px 14px; cursor: pointer; }
+        @media (max-width: 800px) { .template-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div id="particles-container"></div>
+
+    <div id="mainContent">
+        <nav class="sidebar">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item" title="homepage"><i class="fas fa-circle"></i></a>
+                <a href="ai.html" class="nav-item" title="AI"><i class="fas fa-brain"></i></a>
+                <a href="chatroom.html" class="nav-item" title="Chatroom"><i class="fas fa-comments"></i></a>
+                <a href="games.html" class="nav-item" title="Games"><i class="fas fa-gamepad"></i></a>
+                <a href="template.html" class="nav-item active" title="Template"><i class="fas fa-code"></i></a>
+            </div>
+        </nav>
+
+        <div class="template-container">
+            <div class="template-header">
+                <h1>Placeholder Template</h1>
+                <p>Replace fake values with real names and data</p>
+            </div>
+
+            <div class="template-grid">
+                <div class="panel">
+                    <textarea class="code-box" id="codeBox">const player = {
+  name: "PLAYER_NAME",
+  rank: "PLAYER_RANK",
+  favoriteGame: "GAME_NAME",
+  team: "TEAM_NAME"
+};
+
+const quest = {
+  title: "QUEST_TITLE",
+  description: "QUEST_DESCRIPTION",
+  reward: "REWARD_NAME"
+};
+
+const npc = {
+  name: "NPC_NAME",
+  role: "NPC_ROLE",
+  location: "LOCATION_NAME"
+};
+
+const mission = {
+  objective: "MISSION_OBJECTIVE",
+  reward: "REWARD_ITEM",
+  difficulty: "DIFFICULTY_LEVEL"
+};</textarea>
+
+                    <div class="template-actions">
+                        <button id="applyTemplateBtn">Apply</button>
+                        <button id="saveTemplateBtn">Save</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="placeholder-list">
+                        <div class="placeholder-field"><label>Player Name</label><input type="text" id="playerName" value="PLAYER_NAME"></div>
+                        <div class="placeholder-field"><label>Player Rank</label><input type="text" id="playerRank" value="PLAYER_RANK"></div>
+                        <div class="placeholder-field"><label>Favorite Game</label><input type="text" id="favoriteGame" value="GAME_NAME"></div>
+                        <div class="placeholder-field"><label>Team Name</label><input type="text" id="teamName" value="TEAM_NAME"></div>
+                        <div class="placeholder-field"><label>Quest Title</label><input type="text" id="questTitle" value="QUEST_TITLE"></div>
+                        <div class="placeholder-field"><label>NPC Name</label><input type="text" id="npcName" value="NPC_NAME"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="particles.js"></script>
+    <script>
+        const codeBox = document.getElementById('codeBox');
+        const applyTemplateBtn = document.getElementById('applyTemplateBtn');
+        const saveTemplateBtn = document.getElementById('saveTemplateBtn');
+
+        function updateCode() {
+            const vals = { playerName: document.getElementById('playerName').value || 'PLAYER_NAME', playerRank: document.getElementById('playerRank').value || 'PLAYER_RANK', favoriteGame: document.getElementById('favoriteGame').value || 'GAME_NAME', teamName: document.getElementById('teamName').value || 'TEAM_NAME', questTitle: document.getElementById('questTitle').value || 'QUEST_TITLE', npcName: document.getElementById('npcName').value || 'NPC_NAME' };
+            codeBox.value = `const player = {\n  name: "${vals.playerName}",\n  rank: "${vals.playerRank}",\n  favoriteGame: "${vals.favoriteGame}",\n  team: "${vals.teamName}"\n};\n\nconst quest = {\n  title: "${vals.questTitle}",\n  description: "QUEST_DESCRIPTION",\n  reward: "REWARD_NAME"\n};\n\nconst npc = {\n  name: "${vals.npcName}",\n  role: "NPC_ROLE",\n  location: "LOCATION_NAME"\n};\n\nconst mission = {\n  objective: "MISSION_OBJECTIVE",\n  reward: "REWARD_ITEM",\n  difficulty: "DIFFICULTY_LEVEL"\n};`;
+        }
+
+        applyTemplateBtn.addEventListener('click', updateCode);
+        saveTemplateBtn.addEventListener('click', function() { localStorage.setItem('template-code', codeBox.value); alert('Saved!'); });
+        window.addEventListener('load', function() { const saved = localStorage.getItem('template-code'); if (saved) codeBox.value = saved; });
+    </script>
+</body>
+</html>

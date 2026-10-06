@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .ai-container { max-width: 800px; margin: 0 auto; padding: 40px 20px; color: #ccc; }
+        .ai-header { text-align: center; margin-bottom: 30px; }
+        .ai-header h1 { font-size: 28px; margin: 0; color: #fff; }
+        .chat-box { background: rgba(20,20,20,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 8px; padding: 20px; margin-bottom: 20px; min-height: 400px; max-height: 500px; overflow-y: auto; }
+        .message { margin-bottom: 15px; padding: 10px; border-radius: 5px; }
+        .message.user { background: rgba(100,200,255,0.2); margin-left: 20px; border-left: 3px solid rgba(100,200,255,0.6); }
+        .message.ai { background: rgba(100,100,100,0.2); margin-right: 20px; border-left: 3px solid rgba(100,100,100,0.6); }
+        .input-area { display: flex; gap: 10px; }
+        .input-area input { flex: 1; padding: 12px; background: rgba(20,20,20,0.9); border: 1px solid rgba(100,200,255,0.3); border-radius: 5px; color: #ccc; font-size: 14px; }
+        .input-area input::placeholder { color: #666; }
+        .input-area button { padding: 12px 20px; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 1px solid rgba(100,200,255,0.5); color: #ccc; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .input-area button:hover { background: linear-gradient(135deg, rgba(100,200,255,0.4), rgba(255,100,200,0.4)); }
+    </style>
+</head>
+<body>
+    <div id="particles-container"></div>
+
+    <div id="mainContent">
+        <nav class="sidebar">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item" title="homepage"><i class="fas fa-circle"></i></a>
+                <a href="ai.html" class="nav-item active" title="AI"><i class="fas fa-brain"></i></a>
+                <a href="chatroom.html" class="nav-item" title="Chatroom"><i class="fas fa-comments"></i></a>
+                <a href="games.html" class="nav-item" title="Games"><i class="fas fa-gamepad"></i></a>
+                <a href="template.html" class="nav-item" title="Template"><i class="fas fa-code"></i></a>
+            </div>
+        </nav>
+
+        <div class="ai-container">
+            <div class="ai-header">
+                <h1>AI Assistant</h1>
+                <p>Chat with AI</p>
+            </div>
+
+            <div class="chat-box" id="chatBox">
+                <div class="message ai"><strong>AI:</strong> Hello! How can I help you today?</div>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Type your message...">
+                <button id="sendBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="particles.js"></script>
+    <script>
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        sendBtn.addEventListener('click', function() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.innerHTML = `<strong>You:</strong> ${message}`;
+            chatBox.appendChild(userMsg);
+
+            userInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(function() {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message ai';
+                aiMsg.innerHTML = `<strong>AI:</strong> Placeholder response.`;
+                chatBox.appendChild(aiMsg);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 500);
+        });
+
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendBtn.click();
+        });
+    </script>
+</body>
+</html>

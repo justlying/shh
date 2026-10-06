@@ -18,17 +18,17 @@
         .game-card h3 { color: #fff; margin: 10px 0; font-size: 18px; }
         .game-card p { color: #999; font-size: 12px; margin: 0; }
         .game-card .players { color: #aaa; font-size: 11px; margin-top: 8px; }
-        .add-game-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 2px solid rgba(100,200,255,0.5); color: #ccc; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.3s; margin-top: 20px; }
+        .add-game-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 2px solid rgba(100,200,255,0.5); color: #ccc; border-radius: 8px; cursor: pointer; font-size: 14px; margin-top: 20px; }
         .add-game-btn:hover { background: linear-gradient(135deg, rgba(100,200,255,0.4), rgba(255,100,200,0.4)); }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-content { background: rgba(20,20,20,0.95); border: 1px solid rgba(100,200,255,0.3); border-radius: 8px; padding: 30px; max-width: 500px; width: 90%; }
         .modal-content h2 { color: #fff; margin-top: 0; }
         .modal-content label { display: block; color: #ccc; margin-top: 15px; font-size: 14px; }
-        .modal-content input, .modal-content textarea { width: 100%; padding: 10px; margin-top: 5px; background: rgba(10,10,10,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 5px; color: #ccc; font-family: inherit; box-sizing: border-box; }
+        .modal-content input, .modal-content textarea { width: 100%; padding: 10px; margin-top: 5px; background: rgba(10,10,10,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 5px; color: #ccc; box-sizing: border-box; }
         .modal-content textarea { resize: vertical; min-height: 80px; }
         .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
-        .modal-buttons button { flex: 1; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: 0.3s; }
+        .modal-buttons button { flex: 1; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; }
         .btn-save { background: rgba(100,200,255,0.3); color: #ccc; border: 1px solid rgba(100,200,255,0.5); }
         .btn-save:hover { background: rgba(100,200,255,0.5); }
         .btn-cancel { background: rgba(100,100,100,0.3); color: #ccc; border: 1px solid rgba(100,100,100,0.5); }
@@ -60,7 +60,6 @@
                 <div class="game-card"><i class="fas fa-chess"></i><h3>GAME_NAME_2</h3><p>GAME_DESCRIPTION_2</p><div class="players">👥 PLAYERS_2</div></div>
                 <div class="game-card"><i class="fas fa-cards"></i><h3>GAME_NAME_3</h3><p>GAME_DESCRIPTION_3</p><div class="players">👥 PLAYERS_3</div></div>
             </div>
-
             <button class="add-game-btn" id="addGameBtn">+ Add Game</button>
         </div>
     </div>
@@ -102,18 +101,8 @@
         closeModalBtn.addEventListener('click', () => { gameModal.classList.remove('active'); resetForm(); });
 
         saveGameBtn.addEventListener('click', function() {
-            if (!gameName.value.trim()) {
-                alert('Please enter a game name');
-                return;
-            }
-
-            const newGame = {
-                name: gameName.value,
-                description: gameDesc.value || 'Fun game',
-                players: gamePlayers.value || 'Multiplayer',
-                icon: gameIcon.value || 'fa-dice'
-            };
-
+            if (!gameName.value.trim()) { alert('Enter a game name'); return; }
+            const newGame = { name: gameName.value, description: gameDesc.value || 'Fun game', players: gamePlayers.value || 'Multiplayer', icon: gameIcon.value || 'fa-dice' };
             games.push(newGame);
             localStorage.setItem('games', JSON.stringify(games));
             addGameToDOM(newGame, games.length - 1);
@@ -124,37 +113,13 @@
         function addGameToDOM(game, index) {
             const gameCard = document.createElement('div');
             gameCard.className = 'game-card';
-            gameCard.innerHTML = `
-                <i class="fas ${game.icon}"></i>
-                <h3>${game.name}</h3>
-                <p>${game.description}</p>
-                <div class="players">👥 ${game.players}</div>
-                <button style="margin-top: 10px; padding: 5px 10px; background: rgba(255,100,100,0.3); border:1px solid rgba(255,100,100,0.5); color:#ccc; border-radius:3px; cursor:pointer; font-size:11px;" onclick="deleteGame(${index})">Delete</button>
-            `;
+            gameCard.innerHTML = `<i class="fas ${game.icon}"></i><h3>${game.name}</h3><p>${game.description}</p><div class="players">👥 ${game.players}</div><button style="margin-top:10px;padding:5px 10px;background:rgba(255,100,100,0.3);border:1px solid rgba(255,100,100,0.5);color:#ccc;border-radius:3px;cursor:pointer;font-size:11px;" onclick="deleteGame(${index})">Delete</button>`;
             gamesGrid.appendChild(gameCard);
         }
 
-        function deleteGame(index) {
-            if (confirm('Delete this game?')) {
-                games.splice(index, 1);
-                localStorage.setItem('games', JSON.stringify(games));
-                location.reload();
-            }
-        }
-
-        function resetForm() {
-            gameName.value = '';
-            gameDesc.value = '';
-            gamePlayers.value = '';
-            gameIcon.value = 'fa-dice';
-        }
-
-        gameModal.addEventListener('click', function(e) {
-            if (e.target === gameModal) {
-                gameModal.classList.remove('active');
-                resetForm();
-            }
-        });
+        function deleteGame(index) { if (confirm('Delete?')) { games.splice(index, 1); localStorage.setItem('games', JSON.stringify(games)); location.reload(); } }
+        function resetForm() { gameName.value = ''; gameDesc.value = ''; gamePlayers.value = ''; gameIcon.value = 'fa-dice'; }
+        gameModal.addEventListener('click', function(e) { if (e.target === gameModal) { gameModal.classList.remove('active'); resetForm(); } });
     </script>
 </body>
 </html>
