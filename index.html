@@ -10,17 +10,7 @@
 <body>
     <div id="particles-container"></div>
 
-    <div id="verifyScreen" class="password-overlay">
-        <div class="password-container">
-            <h2>Verify Human</h2>
-            <p style="color: #aaa; margin-bottom: 25px; font-size: 14px;">Please confirm you are not a robot</p>
-            <button id="notRobotBtn" style="width: 100%; padding: 12px 20px; background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(255, 100, 200, 0.2)); border: 2px solid rgba(100, 200, 255, 0.5); color: #ccc; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: 0.3s;">
-                I'm Human
-            </button>
-        </div>
-    </div>
-
-    <div id="mainContent" class="hidden-content hidden">
+    <div id="mainContent">
         <nav class="sidebar">
             <div class="nav-items">
                 <a href="index.html" class="nav-item active" title="homepage">
@@ -38,85 +28,14 @@
             </div>
         </nav>
 
-        <button class="follow-btn" id="followBtn">site</button>
-
-        <div id="popup" class="popup hidden">
-            <div class="popup-content">
-                <span class="popup-close">&times;</span>
-                <iframe src="https://manmansecuredgamesgithubio.vercel.app" frameborder="0" allowfullscreen></iframe>
-            </div>
+        <div style="max-width: 900px; margin: 0 auto; padding: 40px 20px; text-align: center; color: #ccc;">
+            <h1 style="font-size: 32px; color: #fff; margin: 0 0 20px 0;">Portal</h1>
+            <p style="color: #999; margin-bottom: 40px;">A quiet, hidden space</p>
+            <p style="font-size: 14px; color: #aaa;">Navigate using the sidebar or visit any of the pages.</p>
         </div>
     </div>
 
     <script src="particles.js"></script>
     <script src="script.js"></script>
-    <script>
-        function isInsideIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-        }
-
-        function isAboutBlank() {
-            try {
-                return window.location.href === 'about:blank';
-            } catch (e) {
-                return false;
-            }
-        }
-
-        function openAboutBlank() {
-            const newTab = window.open('about:blank', '_blank');
-
-            try {
-                if (newTab) {
-                    newTab.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Blank</title></head><body></body></html>');
-                    newTab.document.close();
-                }
-            } catch (e) {
-                // ignore browser restrictions
-            }
-
-            setTimeout(function () {
-                try {
-                    window.location.href = 'about:blank';
-                } catch (e) {
-                    // no-op fallback
-                }
-            }, 150);
-
-            if (!newTab) {
-                setTimeout(function () {
-                    try {
-                        window.location.href = 'about:blank';
-                    } catch (e) {
-                        // no-op fallback
-                    }
-                }, 150);
-            }
-        }
-
-        const verifyScreen = document.getElementById('verifyScreen');
-        const mainContent = document.getElementById('mainContent');
-        const notRobotBtn = document.getElementById('notRobotBtn');
-
-        // Auto-detect about:blank and skip verification
-        if (isAboutBlank()) {
-            verifyScreen.classList.add('hidden');
-            mainContent.classList.remove('hidden');
-        } else {
-            // Only show verification screen on the actual site
-            notRobotBtn.addEventListener('click', function() {
-                verifyScreen.classList.add('hidden');
-                mainContent.classList.remove('hidden');
-
-                if (!isInsideIframe()) {
-                    openAboutBlank();
-                }
-            });
-        }
-    </script>
 </body>
 </html>
