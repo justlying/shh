@@ -7,27 +7,43 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .games-container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .games-container { max-width: 980px; margin: 0 auto; padding: 40px 20px; }
         .games-header { text-align: center; margin-bottom: 40px; }
         .games-header h1 { font-size: 32px; color: #fff; margin: 0; }
         .games-header p { color: #999; margin-top: 5px; }
-        .template-section { background: rgba(20,20,20,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 10px; padding: 25px; margin-bottom: 40px; }
+
+        .template-section { background: rgba(20,20,20,0.82); border: 1px solid rgba(100,200,255,0.3); border-radius: 12px; padding: 25px; margin-bottom: 40px; }
         .template-title { font-size: 20px; color: #fff; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid rgba(100,200,255,0.2); padding-bottom: 10px; }
         .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .template-field { display: flex; flex-direction: column; gap: 5px; }
         .template-field label { color: #ccc; font-size: 12px; }
-        .template-field input, .template-field textarea { padding: 8px; background: rgba(10,10,10,0.9); border: 1px solid rgba(100,200,255,0.3); border-radius: 5px; color: #fff; font-family: inherit; box-sizing: border-box; }
+        .template-field input, .template-field textarea { padding: 10px; background: rgba(10,10,10,0.9); border: 1px solid rgba(100,200,255,0.3); border-radius: 5px; color: #fff; font-family: inherit; box-sizing: border-box; }
         .template-field textarea { resize: vertical; min-height: 60px; }
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .game-card { background: rgba(20,20,20,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .template-actions { display: flex; gap: 10px; margin-top: 15px; }
+        .template-actions button { flex: 1; padding: 12px; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 1px solid rgba(100,200,255,0.5); color: #ccc; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        .template-actions button:hover { background: linear-gradient(135deg, rgba(100,200,255,0.4), rgba(255,100,200,0.4)); }
+
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+        .game-card { background: rgba(20,20,20,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: 0.25s ease; }
         .game-card:hover { background: rgba(30,30,30,0.9); border-color: rgba(100,200,255,0.6); transform: translateY(-5px); }
         .game-card i { font-size: 40px; color: rgba(100,200,255,0.6); margin-bottom: 10px; }
         .game-card h3 { color: #fff; margin: 10px 0; font-size: 18px; }
         .game-card p { color: #999; font-size: 12px; margin: 0; }
-        .game-card .players { color: #aaa; font-size: 11px; margin-top: 8px; }
-        .template-actions { display: flex; gap: 10px; margin-top: 15px; }
-        .template-actions button { flex: 1; padding: 10px; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 1px solid rgba(100,200,255,0.5); color: #ccc; border-radius: 5px; cursor: pointer; font-size: 12px; }
-        .template-actions button:hover { background: linear-gradient(135deg, rgba(100,200,255,0.4), rgba(255,100,200,0.4)); }
+        .game-card .players { color: #aaa; font-size: 11px; margin-top: 10px; }
+        .game-actions { display: flex; gap: 8px; margin-top: 14px; }
+        .game-actions button { flex: 1; padding: 8px 6px; border: 1px solid rgba(100,200,255,0.4); background: rgba(100,200,255,0.15); color: #ddd; border-radius: 5px; cursor: pointer; font-size: 11px; }
+        .game-actions button:hover { background: rgba(100,200,255,0.25); }
+        .game-actions .delete-btn { background: rgba(255,100,100,0.25); border-color: rgba(255,100,100,0.45); }
+        .game-actions .delete-btn:hover { background: rgba(255,100,100,0.35); }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.78); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { width: min(1200px, 96vw); height: min(88vh, 800px); background: rgba(15,15,15,0.96); border: 1px solid rgba(100,200,255,0.4); border-radius: 12px; padding: 16px; position: relative; }
+        .modal-close { position: absolute; right: 14px; top: 10px; font-size: 30px; color: #fff; cursor: pointer; }
+        .modal-frame { width: 100%; height: calc(100% - 30px); border: 0; background: #111; border-radius: 8px; margin-top: 26px; }
+        .fallback-note { color: #bbb; font-size: 12px; margin-top: 8px; }
+
+        @media (max-width: 700px) { .template-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -46,7 +62,7 @@
         <div class="games-container">
             <div class="games-header">
                 <h1>Games</h1>
-                <p>Play and have fun</p>
+                <p>Generate cards and open games in a blank tab or inside the page.</p>
             </div>
 
             <div class="template-section">
@@ -54,19 +70,23 @@
                 <div class="template-grid">
                     <div class="template-field">
                         <label>Game Name</label>
-                        <input type="text" id="gameName" placeholder="e.g. Chess">
+                        <input type="text" id="gameName" placeholder="e.g. Snake">
                     </div>
                     <div class="template-field">
                         <label>Game Icon (Font Awesome)</label>
-                        <input type="text" id="gameIcon" placeholder="e.g. fa-chess" value="fa-dice">
+                        <input type="text" id="gameIcon" placeholder="e.g. fa-gamepad" value="fa-dice">
                     </div>
                     <div class="template-field">
-                        <label>Description</label>
-                        <textarea id="gameDesc" placeholder="e.g. A strategic board game"></textarea>
+                        <label>Link or HTML</label>
+                        <textarea id="gameLink" placeholder="Paste a URL like https://example.com or raw HTML"></textarea>
                     </div>
                     <div class="template-field">
                         <label>Players</label>
-                        <input type="text" id="gamePlayers" placeholder="e.g. 2-4 players">
+                        <input type="text" id="gamePlayers" placeholder="e.g. 1-2 players">
+                    </div>
+                    <div class="template-field" style="grid-column: 1 / -1;">
+                        <label>Description</label>
+                        <textarea id="gameDesc" placeholder="e.g. A simple arcade game"></textarea>
                     </div>
                 </div>
                 <div class="template-actions">
@@ -75,11 +95,14 @@
                 </div>
             </div>
 
-            <div class="games-grid" id="gamesGrid">
-                <div class="game-card"><i class="fas fa-dice"></i><h3>GAME_NAME_1</h3><p>GAME_DESCRIPTION_1</p><div class="players">👥 PLAYERS_1</div></div>
-                <div class="game-card"><i class="fas fa-chess"></i><h3>GAME_NAME_2</h3><p>GAME_DESCRIPTION_2</p><div class="players">👥 PLAYERS_2</div></div>
-                <div class="game-card"><i class="fas fa-cards"></i><h3>GAME_NAME_3</h3><p>GAME_DESCRIPTION_3</p><div class="players">👥 PLAYERS_3</div></div>
-            </div>
+            <div class="games-grid" id="gamesGrid"></div>
+        </div>
+    </div>
+
+    <div id="embedModal" class="modal" aria-modal="true">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModalBtn">&times;</span>
+            <iframe id="previewFrame" class="modal-frame" title="Game preview"></iframe>
         </div>
     </div>
 
@@ -87,63 +110,212 @@
     <script>
         const gamesGrid = document.getElementById('gamesGrid');
         const gameName = document.getElementById('gameName');
+        const gameLink = document.getElementById('gameLink');
         const gameDesc = document.getElementById('gameDesc');
         const gamePlayers = document.getElementById('gamePlayers');
         const gameIcon = document.getElementById('gameIcon');
         const addToGridBtn = document.getElementById('addToGridBtn');
         const clearFormBtn = document.getElementById('clearFormBtn');
+        const embedModal = document.getElementById('embedModal');
+        const previewFrame = document.getElementById('previewFrame');
+        const closeModalBtn = document.getElementById('closeModalBtn');
 
-        let games = JSON.parse(localStorage.getItem('games')) || [];
-        games.forEach((game, index) => addGameToDOM(game, index));
+        const STORAGE_KEY = 'game-generator-cards';
+        const defaultGames = [
+            { name: 'GAME_NAME_1', description: 'GAME_DESCRIPTION_1', players: 'PLAYERS_1', icon: 'fa-dice', url: 'https://example.com' },
+            { name: 'GAME_NAME_2', description: 'GAME_DESCRIPTION_2', players: 'PLAYERS_2', icon: 'fa-chess', url: 'https://example.com' },
+            { name: 'GAME_NAME_3', description: 'GAME_DESCRIPTION_3', players: 'PLAYERS_3', icon: 'fa-cards', url: 'https://example.com' }
+        ];
 
-        addToGridBtn.addEventListener('click', function() {
-            if (!gameName.value.trim()) {
-                alert('Please enter a game name');
-                return;
+        let games = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultGames;
+
+        function normalizeUrl(raw) {
+            const trimmed = (raw || '').trim();
+            if (!trimmed) return '';
+            if (trimmed.startsWith('<')) return trimmed;
+            if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith('//')) return trimmed;
+            if (/^\w+\s*[:=]/i.test(trimmed) || trimmed.includes(' ')) return trimmed;
+            return 'https://' + trimmed;
+        }
+
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function buildBlankDocument(source) {
+            const clean = (source || '').trim();
+            if (!clean) return '<!DOCTYPE html><html><body style="margin:0;background:#111;"></body></html>';
+
+            if (clean.startsWith('<')) {
+                return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>html,body{margin:0;width:100%;height:100%;background:#111;} iframe{width:100%;height:100%;border:0;display:block;}</style>
+</head>
+<body>
+  <iframe srcdoc="${escapeHtml(clean)}"></iframe>
+</body>
+</html>`;
             }
 
-            const newGame = {
-                name: gameName.value,
-                description: gameDesc.value || 'Fun game',
-                players: gamePlayers.value || 'Multiplayer',
-                icon: gameIcon.value || 'fa-dice'
-            };
+            return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>html,body{margin:0;width:100%;height:100%;background:#111;} iframe{width:100%;height:100%;border:0;display:block;}</style>
+</head>
+<body>
+  <iframe src="${clean}"></iframe>
+</body>
+</html>`;
+        }
 
-            games.push(newGame);
-            localStorage.setItem('games', JSON.stringify(games));
-            addGameToDOM(newGame, games.length - 1);
-            resetForm();
-        });
-
-        clearFormBtn.addEventListener('click', resetForm);
+        function saveGames() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(games));
+        }
 
         function addGameToDOM(game, index) {
             const gameCard = document.createElement('div');
             gameCard.className = 'game-card';
             gameCard.innerHTML = `
-                <i class="fas ${game.icon}"></i>
+                <i class="fas ${game.icon || 'fa-dice'}"></i>
                 <h3>${game.name}</h3>
-                <p>${game.description}</p>
-                <div class="players">👥 ${game.players}</div>
-                <button style="margin-top:10px;padding:5px 10px;background:rgba(255,100,100,0.3);border:1px solid rgba(255,100,100,0.5);color:#ccc;border-radius:3px;cursor:pointer;font-size:11px;" onclick="deleteGame(${index})">Delete</button>
+                <p>${game.description || 'Game description'}</p>
+                <div class="players">👥 ${game.players || 'Single player'}</div>
+                <div class="game-actions">
+                    <button type="button" data-action="embed" data-index="${index}">Embed</button>
+                    <button type="button" data-action="open" data-index="${index}">Open</button>
+                    <button type="button" data-action="blank" data-index="${index}">Blank</button>
+                    <button type="button" class="delete-btn" data-action="delete" data-index="${index}">Delete</button>
+                </div>
             `;
+
             gamesGrid.appendChild(gameCard);
         }
 
-        function deleteGame(index) {
-            if (confirm('Delete this game?')) {
-                games.splice(index, 1);
-                localStorage.setItem('games', JSON.stringify(games));
-                location.reload();
-            }
+        function renderGames() {
+            gamesGrid.innerHTML = '';
+            games.forEach((game, index) => addGameToDOM(game, index));
         }
 
         function resetForm() {
             gameName.value = '';
+            gameLink.value = '';
             gameDesc.value = '';
             gamePlayers.value = '';
             gameIcon.value = 'fa-dice';
         }
+
+        function openEmbed(game) {
+            const src = normalizeUrl(game.url);
+            if (!src) {
+                alert('This game has no valid link/code.');
+                return;
+            }
+
+            if (src.startsWith('<')) {
+                previewFrame.srcdoc = src;
+                previewFrame.src = 'about:blank';
+            } else {
+                previewFrame.src = src;
+                previewFrame.srcdoc = '';
+            }
+
+            embedModal.classList.add('active');
+        }
+
+        function openExternal(game) {
+            const src = normalizeUrl(game.url);
+            if (!src) {
+                alert('This game has no valid link/code.');
+                return;
+            }
+            window.open(src, '_blank', 'noopener,noreferrer');
+        }
+
+        function openBlank(game) {
+            const src = normalizeUrl(game.url);
+            if (!src) {
+                alert('This game has no valid link/code.');
+                return;
+            }
+
+            const blankWindow = window.open('about:blank', '_blank');
+            if (!blankWindow) {
+                alert('Popup was blocked. Please allow popups for this site.');
+                return;
+            }
+
+            blankWindow.document.open();
+            blankWindow.document.write(buildBlankDocument(src));
+            blankWindow.document.close();
+        }
+
+        function handleCardAction(event) {
+            const btn = event.target.closest('button');
+            if (!btn) return;
+
+            const action = btn.dataset.action;
+            const index = Number(btn.dataset.index);
+            const game = games[index];
+            if (!game) return;
+
+            if (action === 'embed') openEmbed(game);
+            if (action === 'open') openExternal(game);
+            if (action === 'blank') openBlank(game);
+            if (action === 'delete') {
+                if (confirm('Delete this game?')) {
+                    games.splice(index, 1);
+                    saveGames();
+                    renderGames();
+                }
+            }
+        }
+
+        addToGridBtn.addEventListener('click', function() {
+            const name = gameName.value.trim();
+            const source = gameLink.value.trim();
+            if (!name || !source) {
+                alert('Please enter a game name and a link or HTML snippet.');
+                return;
+            }
+
+            const newGame = {
+                name,
+                url: normalizeUrl(source),
+                description: gameDesc.value.trim() || 'Custom game',
+                players: gamePlayers.value.trim() || 'Single player',
+                icon: gameIcon.value.trim() || 'fa-dice'
+            };
+
+            games.push(newGame);
+            saveGames();
+            renderGames();
+            resetForm();
+        });
+
+        clearFormBtn.addEventListener('click', resetForm);
+        closeModalBtn.addEventListener('click', function() {
+            embedModal.classList.remove('active');
+            previewFrame.src = 'about:blank';
+            previewFrame.srcdoc = '';
+        });
+        embedModal.addEventListener('click', function(event) {
+            if (event.target === embedModal) {
+                embedModal.classList.remove('active');
+                previewFrame.src = 'about:blank';
+                previewFrame.srcdoc = '';
+            }
+        });
+        gamesGrid.addEventListener('click', handleCardAction);
+
+        renderGames();
     </script>
 </body>
 </html>

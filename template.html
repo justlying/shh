@@ -3,23 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Template</title>
+    <title>Games</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .template-container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; color: #ddd; }
-        .template-header { text-align: center; margin-bottom: 25px; }
-        .template-header h1 { font-size: 32px; margin: 0; color: #fff; }
-        .template-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; }
-        .panel { background: rgba(20,20,20,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 10px; padding: 20px; }
-        .code-box { min-height: 500px; resize: vertical; width: 100%; background: rgba(10,10,10,0.9); border: 1px solid rgba(100,200,255,0.25); border-radius: 6px; color: #d9f3ff; padding: 16px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5; box-sizing: border-box; }
-        .placeholder-list { display: flex; flex-direction: column; gap: 12px; }
-        .placeholder-field { display: flex; flex-direction: column; gap: 6px; }
-        .placeholder-field label { color: #ccc; font-size: 12px; }
-        .placeholder-field input { width: 100%; padding: 10px; background: rgba(10,10,10,0.9); border: 1px solid rgba(100,200,255,0.3); border-radius: 6px; color: #fff; box-sizing: border-box; }
-        .template-actions { margin-top: 20px; display: flex; gap: 10px; }
-        .template-actions button { flex: 1; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 1px solid rgba(100,200,255,0.5); color: #ddd; border-radius: 6px; padding: 10px 14px; cursor: pointer; }
-        @media (max-width: 800px) { .template-grid { grid-template-columns: 1fr; } }
+        .games-container { max-width: 980px; margin: 0 auto; padding: 40px 20px; }
+        .games-header { text-align: center; margin-bottom: 40px; }
+        .games-header h1 { font-size: 32px; color: #fff; margin: 0; }
+        .games-header p { color: #999; margin-top: 5px; }
+
+        .template-section { background: rgba(20,20,20,0.82); border: 1px solid rgba(100,200,255,0.3); border-radius: 12px; padding: 25px; margin-bottom: 40px; }
+        .template-title { font-size: 20px; color: #fff; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid rgba(100,200,255,0.2); padding-bottom: 10px; }
+        .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .template-field { display: flex; flex-direction: column; gap: 5px; }
+        .template-field label { color: #ccc; font-size: 12px; }
+        .template-field input, .template-field textarea { padding: 10px; background: rgba(10,10,10,0.9); border: 1px solid rgba(100,200,255,0.3); border-radius: 5px; color: #fff; font-family: inherit; box-sizing: border-box; }
+        .template-field textarea { resize: vertical; min-height: 60px; }
+        .template-actions { display: flex; gap: 10px; margin-top: 15px; }
+        .template-actions button { flex: 1; padding: 12px; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 1px solid rgba(100,200,255,0.5); color: #ccc; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        .template-actions button:hover { background: linear-gradient(135deg, rgba(100,200,255,0.4), rgba(255,100,200,0.4)); }
+
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+        .game-card { background: rgba(20,20,20,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: 0.25s ease; }
+        .game-card:hover { background: rgba(30,30,30,0.9); border-color: rgba(100,200,255,0.6); transform: translateY(-5px); }
+        .game-card i { font-size: 40px; color: rgba(100,200,255,0.6); margin-bottom: 10px; }
+        .game-card h3 { color: #fff; margin: 10px 0; font-size: 18px; }
+        .game-card p { color: #999; font-size: 12px; margin: 0; }
+        .game-card .players { color: #aaa; font-size: 11px; margin-top: 10px; }
+        .game-actions { display: flex; gap: 8px; margin-top: 14px; }
+        .game-actions button { flex: 1; padding: 8px 6px; border: 1px solid rgba(100,200,255,0.4); background: rgba(100,200,255,0.15); color: #ddd; border-radius: 5px; cursor: pointer; font-size: 11px; }
+        .game-actions button:hover { background: rgba(100,200,255,0.25); }
+        .game-actions .delete-btn { background: rgba(255,100,100,0.25); border-color: rgba(255,100,100,0.45); }
+        .game-actions .delete-btn:hover { background: rgba(255,100,100,0.35); }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.78); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { width: min(1200px, 96vw); height: min(88vh, 800px); background: rgba(15,15,15,0.96); border: 1px solid rgba(100,200,255,0.4); border-radius: 12px; padding: 16px; position: relative; }
+        .modal-close { position: absolute; right: 14px; top: 10px; font-size: 30px; color: #fff; cursor: pointer; }
+        .modal-frame { width: 100%; height: calc(100% - 30px); border: 0; background: #111; border-radius: 8px; margin-top: 26px; }
+
+        @media (max-width: 700px) { .template-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -31,78 +54,267 @@
                 <a href="index.html" class="nav-item" title="homepage"><i class="fas fa-circle"></i></a>
                 <a href="ai.html" class="nav-item" title="AI"><i class="fas fa-brain"></i></a>
                 <a href="chatroom.html" class="nav-item" title="Chatroom"><i class="fas fa-comments"></i></a>
-                <a href="games.html" class="nav-item" title="Games"><i class="fas fa-gamepad"></i></a>
-                <a href="template.html" class="nav-item active" title="Template"><i class="fas fa-code"></i></a>
+                <a href="games.html" class="nav-item active" title="Games"><i class="fas fa-gamepad"></i></a>
             </div>
         </nav>
 
-        <div class="template-container">
-            <div class="template-header">
-                <h1>Placeholder Template</h1>
-                <p>Replace fake values with real names and data</p>
+        <div class="games-container">
+            <div class="games-header">
+                <h1>Games</h1>
+                <p>Generate cards and open games in a blank tab or inside the page.</p>
             </div>
 
-            <div class="template-grid">
-                <div class="panel">
-                    <textarea class="code-box" id="codeBox">const player = {
-  name: "PLAYER_NAME",
-  rank: "PLAYER_RANK",
-  favoriteGame: "GAME_NAME",
-  team: "TEAM_NAME"
-};
-
-const quest = {
-  title: "QUEST_TITLE",
-  description: "QUEST_DESCRIPTION",
-  reward: "REWARD_NAME"
-};
-
-const npc = {
-  name: "NPC_NAME",
-  role: "NPC_ROLE",
-  location: "LOCATION_NAME"
-};
-
-const mission = {
-  objective: "MISSION_OBJECTIVE",
-  reward: "REWARD_ITEM",
-  difficulty: "DIFFICULTY_LEVEL"
-};</textarea>
-
-                    <div class="template-actions">
-                        <button id="applyTemplateBtn">Apply</button>
-                        <button id="saveTemplateBtn">Save</button>
+            <div class="template-section">
+                <h3 class="template-title">Add New Game</h3>
+                <div class="template-grid">
+                    <div class="template-field">
+                        <label>Game Name</label>
+                        <input type="text" id="gameName" placeholder="e.g. Snake">
+                    </div>
+                    <div class="template-field">
+                        <label>Game Icon (Font Awesome)</label>
+                        <input type="text" id="gameIcon" placeholder="e.g. fa-gamepad" value="fa-dice">
+                    </div>
+                    <div class="template-field">
+                        <label>Link or HTML</label>
+                        <textarea id="gameLink" placeholder="Paste a URL like https://example.com or raw HTML"></textarea>
+                    </div>
+                    <div class="template-field">
+                        <label>Players</label>
+                        <input type="text" id="gamePlayers" placeholder="e.g. 1-2 players">
+                    </div>
+                    <div class="template-field" style="grid-column: 1 / -1;">
+                        <label>Description</label>
+                        <textarea id="gameDesc" placeholder="e.g. A simple arcade game"></textarea>
                     </div>
                 </div>
-
-                <div class="panel">
-                    <div class="placeholder-list">
-                        <div class="placeholder-field"><label>Player Name</label><input type="text" id="playerName" value="PLAYER_NAME"></div>
-                        <div class="placeholder-field"><label>Player Rank</label><input type="text" id="playerRank" value="PLAYER_RANK"></div>
-                        <div class="placeholder-field"><label>Favorite Game</label><input type="text" id="favoriteGame" value="GAME_NAME"></div>
-                        <div class="placeholder-field"><label>Team Name</label><input type="text" id="teamName" value="TEAM_NAME"></div>
-                        <div class="placeholder-field"><label>Quest Title</label><input type="text" id="questTitle" value="QUEST_TITLE"></div>
-                        <div class="placeholder-field"><label>NPC Name</label><input type="text" id="npcName" value="NPC_NAME"></div>
-                    </div>
+                <div class="template-actions">
+                    <button id="addToGridBtn">Add Game</button>
+                    <button id="clearFormBtn">Clear</button>
                 </div>
             </div>
+
+            <div class="games-grid" id="gamesGrid"></div>
+        </div>
+    </div>
+
+    <div id="embedModal" class="modal" aria-modal="true">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModalBtn">&times;</span>
+            <iframe id="previewFrame" class="modal-frame" title="Game preview"></iframe>
         </div>
     </div>
 
     <script src="particles.js"></script>
     <script>
-        const codeBox = document.getElementById('codeBox');
-        const applyTemplateBtn = document.getElementById('applyTemplateBtn');
-        const saveTemplateBtn = document.getElementById('saveTemplateBtn');
+        const gamesGrid = document.getElementById('gamesGrid');
+        const gameName = document.getElementById('gameName');
+        const gameLink = document.getElementById('gameLink');
+        const gameDesc = document.getElementById('gameDesc');
+        const gamePlayers = document.getElementById('gamePlayers');
+        const gameIcon = document.getElementById('gameIcon');
+        const addToGridBtn = document.getElementById('addToGridBtn');
+        const clearFormBtn = document.getElementById('clearFormBtn');
+        const embedModal = document.getElementById('embedModal');
+        const previewFrame = document.getElementById('previewFrame');
+        const closeModalBtn = document.getElementById('closeModalBtn');
 
-        function updateCode() {
-            const vals = { playerName: document.getElementById('playerName').value || 'PLAYER_NAME', playerRank: document.getElementById('playerRank').value || 'PLAYER_RANK', favoriteGame: document.getElementById('favoriteGame').value || 'GAME_NAME', teamName: document.getElementById('teamName').value || 'TEAM_NAME', questTitle: document.getElementById('questTitle').value || 'QUEST_TITLE', npcName: document.getElementById('npcName').value || 'NPC_NAME' };
-            codeBox.value = `const player = {\n  name: "${vals.playerName}",\n  rank: "${vals.playerRank}",\n  favoriteGame: "${vals.favoriteGame}",\n  team: "${vals.teamName}"\n};\n\nconst quest = {\n  title: "${vals.questTitle}",\n  description: "QUEST_DESCRIPTION",\n  reward: "REWARD_NAME"\n};\n\nconst npc = {\n  name: "${vals.npcName}",\n  role: "NPC_ROLE",\n  location: "LOCATION_NAME"\n};\n\nconst mission = {\n  objective: "MISSION_OBJECTIVE",\n  reward: "REWARD_ITEM",\n  difficulty: "DIFFICULTY_LEVEL"\n};`;
+        const STORAGE_KEY = 'game-generator-cards';
+        const defaultGames = [
+            { name: 'GAME_NAME_1', description: 'GAME_DESCRIPTION_1', players: 'PLAYERS_1', icon: 'fa-dice', url: 'https://example.com' },
+            { name: 'GAME_NAME_2', description: 'GAME_DESCRIPTION_2', players: 'PLAYERS_2', icon: 'fa-chess', url: 'https://example.com' },
+            { name: 'GAME_NAME_3', description: 'GAME_DESCRIPTION_3', players: 'PLAYERS_3', icon: 'fa-cards', url: 'https://example.com' }
+        ];
+
+        let games = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultGames;
+
+        function normalizeUrl(raw) {
+            const trimmed = (raw || '').trim();
+            if (!trimmed) return '';
+            if (trimmed.startsWith('<')) return trimmed;
+            if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith('//')) return trimmed;
+            if (/^\w+\s*[:=]/i.test(trimmed) || trimmed.includes(' ')) return trimmed;
+            return 'https://' + trimmed;
         }
 
-        applyTemplateBtn.addEventListener('click', updateCode);
-        saveTemplateBtn.addEventListener('click', function() { localStorage.setItem('template-code', codeBox.value); alert('Saved!'); });
-        window.addEventListener('load', function() { const saved = localStorage.getItem('template-code'); if (saved) codeBox.value = saved; });
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function buildBlankDocument(source) {
+            const clean = (source || '').trim();
+            if (!clean) return '<!DOCTYPE html><html><body style="margin:0;background:#111;"></body></html>';
+
+            if (clean.startsWith('<')) {
+                return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>html,body{margin:0;width:100%;height:100%;background:#111;} iframe{width:100%;height:100%;border:0;display:block;}</style>
+</head>
+<body>
+  <iframe srcdoc="${escapeHtml(clean)}"></iframe>
+</body>
+</html>`;
+            }
+
+            return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>html,body{margin:0;width:100%;height:100%;background:#111;} iframe{width:100%;height:100%;border:0;display:block;}</style>
+</head>
+<body>
+  <iframe src="${clean}"></iframe>
+</body>
+</html>`;
+        }
+
+        function saveGames() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(games));
+        }
+
+        function addGameToDOM(game, index) {
+            const gameCard = document.createElement('div');
+            gameCard.className = 'game-card';
+            gameCard.innerHTML = `
+                <i class="fas ${game.icon || 'fa-dice'}"></i>
+                <h3>${game.name}</h3>
+                <p>${game.description || 'Game description'}</p>
+                <div class="players">👥 ${game.players || 'Single player'}</div>
+                <div class="game-actions">
+                    <button type="button" data-action="embed" data-index="${index}">Embed</button>
+                    <button type="button" data-action="open" data-index="${index}">Open</button>
+                    <button type="button" data-action="blank" data-index="${index}">Blank</button>
+                    <button type="button" class="delete-btn" data-action="delete" data-index="${index}">Delete</button>
+                </div>
+            `;
+
+            gamesGrid.appendChild(gameCard);
+        }
+
+        function renderGames() {
+            gamesGrid.innerHTML = '';
+            games.forEach((game, index) => addGameToDOM(game, index));
+        }
+
+        function resetForm() {
+            gameName.value = '';
+            gameLink.value = '';
+            gameDesc.value = '';
+            gamePlayers.value = '';
+            gameIcon.value = 'fa-dice';
+        }
+
+        function openEmbed(game) {
+            const src = normalizeUrl(game.url);
+            if (!src) {
+                alert('This game has no valid link/code.');
+                return;
+            }
+
+            if (src.startsWith('<')) {
+                previewFrame.srcdoc = src;
+                previewFrame.src = 'about:blank';
+            } else {
+                previewFrame.src = src;
+                previewFrame.srcdoc = '';
+            }
+
+            embedModal.classList.add('active');
+        }
+
+        function openExternal(game) {
+            const src = normalizeUrl(game.url);
+            if (!src) {
+                alert('This game has no valid link/code.');
+                return;
+            }
+            window.open(src, '_blank', 'noopener,noreferrer');
+        }
+
+        function openBlank(game) {
+            const src = normalizeUrl(game.url);
+            if (!src) {
+                alert('This game has no valid link/code.');
+                return;
+            }
+
+            const blankWindow = window.open('about:blank', '_blank');
+            if (!blankWindow) {
+                alert('Popup was blocked. Please allow popups for this site.');
+                return;
+            }
+
+            blankWindow.document.open();
+            blankWindow.document.write(buildBlankDocument(src));
+            blankWindow.document.close();
+        }
+
+        function handleCardAction(event) {
+            const btn = event.target.closest('button');
+            if (!btn) return;
+
+            const action = btn.dataset.action;
+            const index = Number(btn.dataset.index);
+            const game = games[index];
+            if (!game) return;
+
+            if (action === 'embed') openEmbed(game);
+            if (action === 'open') openExternal(game);
+            if (action === 'blank') openBlank(game);
+            if (action === 'delete') {
+                if (confirm('Delete this game?')) {
+                    games.splice(index, 1);
+                    saveGames();
+                    renderGames();
+                }
+            }
+        }
+
+        addToGridBtn.addEventListener('click', function() {
+            const name = gameName.value.trim();
+            const source = gameLink.value.trim();
+            if (!name || !source) {
+                alert('Please enter a game name and a link or HTML snippet.');
+                return;
+            }
+
+            const newGame = {
+                name,
+                url: normalizeUrl(source),
+                description: gameDesc.value.trim() || 'Custom game',
+                players: gamePlayers.value.trim() || 'Single player',
+                icon: gameIcon.value.trim() || 'fa-dice'
+            };
+
+            games.push(newGame);
+            saveGames();
+            renderGames();
+            resetForm();
+        });
+
+        clearFormBtn.addEventListener('click', resetForm);
+        closeModalBtn.addEventListener('click', function() {
+            embedModal.classList.remove('active');
+            previewFrame.src = 'about:blank';
+            previewFrame.srcdoc = '';
+        });
+        embedModal.addEventListener('click', function(event) {
+            if (event.target === embedModal) {
+                embedModal.classList.remove('active');
+                previewFrame.src = 'about:blank';
+                previewFrame.srcdoc = '';
+            }
+        });
+        gamesGrid.addEventListener('click', handleCardAction);
+
+        renderGames();
     </script>
 </body>
 </html>
