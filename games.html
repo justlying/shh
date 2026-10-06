@@ -25,24 +25,9 @@
         .game-card h3 { color: #fff; margin: 10px 0; font-size: 18px; }
         .game-card p { color: #999; font-size: 12px; margin: 0; }
         .game-card .players { color: #aaa; font-size: 11px; margin-top: 8px; }
-        .add-game-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 2px solid rgba(100,200,255,0.5); color: #ccc; border-radius: 8px; cursor: pointer; font-size: 14px; margin-top: 20px; }
-        .add-game-btn:hover { background: linear-gradient(135deg, rgba(100,200,255,0.4), rgba(255,100,200,0.4)); }
         .template-actions { display: flex; gap: 10px; margin-top: 15px; }
         .template-actions button { flex: 1; padding: 10px; background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(255,100,200,0.2)); border: 1px solid rgba(100,200,255,0.5); color: #ccc; border-radius: 5px; cursor: pointer; font-size: 12px; }
         .template-actions button:hover { background: linear-gradient(135deg, rgba(100,200,255,0.4), rgba(255,100,200,0.4)); }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; }
-        .modal.active { display: flex; }
-        .modal-content { background: rgba(20,20,20,0.95); border: 1px solid rgba(100,200,255,0.3); border-radius: 8px; padding: 30px; max-width: 500px; width: 90%; }
-        .modal-content h2 { color: #fff; margin-top: 0; }
-        .modal-content label { display: block; color: #ccc; margin-top: 15px; font-size: 14px; }
-        .modal-content input, .modal-content textarea { width: 100%; padding: 10px; margin-top: 5px; background: rgba(10,10,10,0.8); border: 1px solid rgba(100,200,255,0.3); border-radius: 5px; color: #ccc; font-family: inherit; box-sizing: border-box; }
-        .modal-content textarea { resize: vertical; min-height: 80px; }
-        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
-        .modal-buttons button { flex: 1; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: 0.3s; }
-        .btn-save { background: rgba(100,200,255,0.3); color: #ccc; border: 1px solid rgba(100,200,255,0.5); }
-        .btn-save:hover { background: rgba(100,200,255,0.5); }
-        .btn-cancel { background: rgba(100,100,100,0.3); color: #ccc; border: 1px solid rgba(100,100,100,0.5); }
-        .btn-cancel:hover { background: rgba(100,100,100,0.5); }
     </style>
 </head>
 <body>
@@ -65,7 +50,7 @@
             </div>
 
             <div class="template-section">
-                <h3 class="template-title">Add New Game (Placeholder)</h3>
+                <h3 class="template-title">Add New Game</h3>
                 <div class="template-grid">
                     <div class="template-field">
                         <label>Game Name</label>
